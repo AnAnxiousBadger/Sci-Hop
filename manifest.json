@@ -1,0 +1,33 @@
+{
+	"manifest_version": 2,
+
+	"name": "Sci-Hop",
+	"description": "Open quickly the current url's article on Sci-hub",
+	"version": "1.1",
+	"background": {
+		"scripts": ["background.js"]
+	},
+
+	"permissions": ["tabs", "commands", "contextMenus"],
+	"browser_action": {
+		"default_icon": "sci_hop_icon.png",
+		"default_title": "Go to Dev.Opera!"
+	},
+    "commands": {
+        "_execute_browser_action": {
+            "suggested_key": {
+                "windows": "Ctrl+Shift+S",
+                "mac": "Command+Shift+S"
+            }
+        }
+    },
+	"icons": {
+		"16": "sci_hop_icon_small.png"
+	},
+	"content_scripts": [
+		{
+			"matches": ["<all_urls>"],
+			"js": ["copy_citation.js"]
+		}
+	]
+}
