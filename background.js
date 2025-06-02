@@ -34,6 +34,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
             tab[0].id, {action: "show_on_sci_hub_popup"}
         );
     });
+  }
 });
 /*
 // Right click selected and open article on sci-hub
