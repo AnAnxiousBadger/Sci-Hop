@@ -4,10 +4,7 @@ chrome.browserAction.onClicked.addListener(function() {
         currentWindow: true,
         active: true
     }, function(tab) {
-        targetUrl = "https://sci-hub.se/" + tab[0].url;
-        chrome.tabs.create({
-            "url": targetUrl
-        });
+		SearchDOI(tab[0].url)
     });
 });
 
@@ -15,15 +12,43 @@ chrome.browserAction.onClicked.addListener(function() {
 chrome.contextMenus.create({
 	title: 'Sci-Hop this: %s',
 	contexts: ['selection'],
-	onclick: searchSelection
+	onclick: SearchDOI
 });
-function searchSelection(info){
-	var myQuery = encodeURI("https://sci-hub.se/" + info.selectionText);
-	chrome.tabs.create({
-		url: myQuery
-	});
-}
 
+// Right click and copy citation
+chrome.contextMenus.create({
+	title: 'Copy Scitation',
+	contexts: ['all'],
+	onclick: CopyCitation
+});
+
+// Liten to copy citation menu click message
+chrome.runtime.onMessage.addListener(
+	function (request, sender){
+		if (request.line == "get_citation"){
+			var citation = document.getElementById("citation");
+			if (citation != null) {
+				chrome.runtime.sendMessage({ citationText: ParseAndCopyCitation(citation.innerText) });
+			} else {
+				alert("No citation found");
+			}
+		}
+	}
+);
+
+// Listen to found citation message
+chrome.runtime.onMessage.addListener(
+	function (request, sender) {
+		if (request.citationText) {
+			console.log("citation text is: " + request.citationText);
+		}
+	}
+);
+
+// FUNCTIONS
+function SearchSelectedDOI(info){
+	SearchDOI(info.selectionText);
+}
 function SearchDOI(DOI){
 	targetURL = encodeURI("https://sci-hub.se/" + DOI);
 	chrome.tabs.create({
@@ -31,28 +56,33 @@ function SearchDOI(DOI){
 	});
 }
 
-// Right click and copy citation
-chrome.contextMenus.create({
-	title: 'Copy Scitation',
-	contexts: ['all'],
-	onclick: copyCitation
-});
-
-function copyCitation(){
+function CopyCitation(ocClickData, tab){
     chrome.tabs.query({
         currentWindow: true,
         active: true
     }, function(tab){
         chrome.tabs.sendMessage(
-            tab[0].id, {line: "getcitation"}
+            tab[0].id, {line: "get_citation"}
         );
     });  
 }
 
-chrome.runtime.onMessage.addListener(
-	function (request, sender) {
-		if (request.cit) {
-			console.log("cit is: " + request.cit);
-		}
-	}
-);
+function ParseAndCopyCitation(citationText) {
+
+    const yearMatch = citationText.match(/\((\d{4})\)/);
+    const year = yearMatch ? yearMatch[1] : '';
+
+    const titleMatch = citationText.match(/\)\. (.*?)\. /);
+    const title = titleMatch ? titleMatch[1] : '';
+
+    const authorMatch = citationText.match(/^(.*?),/);
+    const lastName = authorMatch ? authorMatch[1].split(' ')[0] : '';
+
+    const formattedText = `${year}\t${title}\t${lastName}`;
+
+    navigator.clipboard.writeText(formattedText).then(() => {
+        console.log("Citation: [" + formattedText + "] copied to clipboard!");
+    }).catch(err => {
+        console.error('Failed to copy text: ', err);
+    });
+}
