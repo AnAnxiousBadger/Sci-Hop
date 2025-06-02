@@ -32,14 +32,16 @@
 
 	"content_scripts": [{
 	  "matches": ["<all_urls>"],
-	  "js": ["content.js"]
+	  "js": ["content.js", "utils.js"]
 	}],
 
 	"web_accessible_resources": [
 	{
 		"resources": [
+			"utils.js",
 			"popups/on_sci_hub_popup.html",
 			"popups/style.css",
+			"popups/on_sci_hub_popup.js",
 			"icons/copy_icon.svg",
 			"icons/close_icon.svg",
 			"sci_hop_icon.png"

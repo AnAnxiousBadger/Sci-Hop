@@ -26,7 +26,6 @@ function searchDOI(DOI){
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (tab.url && tab.url.includes("sci-hub")) {
-    //chrome.action.setPopup({ tabId: tabId, popup: "popups/on_sci_hub_popup.html" });
 	chrome.tabs.query({
         currentWindow: true,
         active: true
@@ -35,9 +34,6 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
             tab[0].id, {action: "show_on_sci_hub_popup"}
         );
     });
-  } else {
-    //chrome.action.setPopup({ tabId: tabId, popup: "" });
-  }
 });
 /*
 // Right click selected and open article on sci-hub

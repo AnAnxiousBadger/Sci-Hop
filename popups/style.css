@@ -49,6 +49,7 @@
 }
 .sci-hop-top button:hover{
     background-color: #fed28b;
+    transition: 0.1s ease;
 }
 .sci-hop-top button p{
     color: black;
@@ -78,4 +79,5 @@
 }
 #sci-hop-close-icon:hover{
     width: 1.6rem;
+    transition: 0.1s ease;
 }

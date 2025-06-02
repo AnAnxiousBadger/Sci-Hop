@@ -5,7 +5,7 @@ chrome.runtime.onMessage.addListener(
             parseCleanDOI();
 		}
         else if(request.action == "show_on_sci_hub_popup"){
-            injectPopupHTML();
+            injectOnSciHubPopupHTML();
         }
 	}
 );
@@ -28,38 +28,11 @@ chrome.runtime.onMessage.addListener(
     }).catch(err => {
         console.error('Failed to copy text: ', err);
     });
-}
-
-function parseCleanDOI(){
-	const doiDiv = document.getElementById("doi");
-    const DOIString = doiDiv.innerText;
-	fetchDOIMetaData(DOIString);
-}
-function fetchDOIMetaData(DOI){
-    const apiURL = `https://api.crossref.org/works/${DOI}`;
-    fetch(apiURL).then(response => response.json()).then(data => {
-        /*const title = data.message.title[0];
-        const year = data.message.issued["date-parts"][0][0];
-        const author = data.message.author[0].family;
-        const journal = data.message["container-title"][0];*//*
-
-        const metadata = {
-            year: data.message.issued["date-parts"][0][0],
-            title: data.message.title[0],
-            author: data.message.author[0].family,
-            journal: data.message["container-title"][0],
-            doi: DOI,
-            url: `https://sci-hub.se/${DOI}`
-        };
-        console.log(metadata);
-        return metadata;
-    })
-}
-function copyDataToClipboard(year, title, author){
-
 }*/
 
-async function injectPopupHTML() {
+
+
+async function injectOnSciHubPopupHTML() {
     const url = chrome.runtime.getURL("popups/on_sci_hub_popup.html");
     const response = await fetch(url);
     const html = await response.text();
@@ -100,9 +73,13 @@ async function injectPopupHTML() {
     const closeIcon = document.getElementById("sci-hop-close-icon");
     closeIcon.src = chrome.runtime.getURL("icons/close_icon.svg");
 
+    const popupScript = document.createElement("script");
+    popupScript.src = chrome.runtime.getURL("popups/on_sci_hub_popup.js");
+    document.body.appendChild(popupScript);
 
-  // Load the popup script (e.g. popup/popup.js) if needed
-  /*const script = document.createElement("script");
-  script.src = chrome.runtime.getURL("popup/popup.js");
-  document.body.appendChild(script);*/
+    const utilsScript = document.createElement("script");
+    utilsScript.src = chrome.runtime.getURL("utils.js");
+    document.body.appendChild(utilsScript);
+
+    document.getElementById("sci-hop-doi").innerHTML = parseCleanDOI();
 }
