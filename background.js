@@ -1,4 +1,4 @@
-// Main extension button
+// Main extension button - open article on sci-hub
 chrome.browserAction.onClicked.addListener(function() {
     chrome.tabs.query({
         currentWindow: true,
@@ -8,11 +8,11 @@ chrome.browserAction.onClicked.addListener(function() {
     });
 });
 
-// Right click selected
+// Right click selected and open article on sci-hub
 chrome.contextMenus.create({
-	title: 'Sci-Hop this: %s',
+	title: 'Sci-Hop this → %s',
 	contexts: ['selection'],
-	onclick: SearchDOI
+	onclick: SearchSelectedDOI
 });
 
 // Right click and copy citation
@@ -21,20 +21,6 @@ chrome.contextMenus.create({
 	contexts: ['all'],
 	onclick: CopyCitation
 });
-
-// Liten to copy citation menu click message
-chrome.runtime.onMessage.addListener(
-	function (request, sender){
-		if (request.line == "get_citation"){
-			var citation = document.getElementById("citation");
-			if (citation != null) {
-				chrome.runtime.sendMessage({ citationText: ParseAndCopyCitation(citation.innerText) });
-			} else {
-				alert("No citation found");
-			}
-		}
-	}
-);
 
 // Listen to found citation message
 chrome.runtime.onMessage.addListener(
@@ -47,12 +33,13 @@ chrome.runtime.onMessage.addListener(
 
 // FUNCTIONS
 function SearchSelectedDOI(info){
+	console.log("clicked on icon");
 	SearchDOI(info.selectionText);
 }
 function SearchDOI(DOI){
 	targetURL = encodeURI("https://sci-hub.se/" + DOI);
 	chrome.tabs.create({
-		"url": targetUrl
+		"url": targetURL
 	});
 }
 
@@ -62,27 +49,8 @@ function CopyCitation(ocClickData, tab){
         active: true
     }, function(tab){
         chrome.tabs.sendMessage(
-            tab[0].id, {line: "get_citation"}
+            tab[0].id, {action: "get_citation"}
         );
     });  
 }
 
-function ParseAndCopyCitation(citationText) {
-
-    const yearMatch = citationText.match(/\((\d{4})\)/);
-    const year = yearMatch ? yearMatch[1] : '';
-
-    const titleMatch = citationText.match(/\)\. (.*?)\. /);
-    const title = titleMatch ? titleMatch[1] : '';
-
-    const authorMatch = citationText.match(/^(.*?),/);
-    const lastName = authorMatch ? authorMatch[1].split(' ')[0] : '';
-
-    const formattedText = `${year}\t${title}\t${lastName}`;
-
-    navigator.clipboard.writeText(formattedText).then(() => {
-        console.log("Citation: [" + formattedText + "] copied to clipboard!");
-    }).catch(err => {
-        console.error('Failed to copy text: ', err);
-    });
-}
