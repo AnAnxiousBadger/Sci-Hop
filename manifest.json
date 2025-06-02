@@ -38,8 +38,11 @@
 	"web_accessible_resources": [
 	{
 		"resources": [
-			"popups/popup.html",
-			"popups/style.css"
+			"popups/on_sci_hub_popup.html",
+			"popups/style.css",
+			"icons/copy_icon.svg",
+			"icons/close_icon.svg",
+			"sci_hop_icon.png"
 		],
 		"matches": ["<all_urls>"]
 	}

@@ -22,6 +22,23 @@ function searchDOI(DOI){
 		"url": targetURL
 	});
 }
+
+
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  if (tab.url && tab.url.includes("sci-hub")) {
+    //chrome.action.setPopup({ tabId: tabId, popup: "popups/on_sci_hub_popup.html" });
+	chrome.tabs.query({
+        currentWindow: true,
+        active: true
+    }, function(tab){
+        chrome.tabs.sendMessage(
+            tab[0].id, {action: "show_on_sci_hub_popup"}
+        );
+    });
+  } else {
+    //chrome.action.setPopup({ tabId: tabId, popup: "" });
+  }
+});
 /*
 // Right click selected and open article on sci-hub
 chrome.contextMenus.create({

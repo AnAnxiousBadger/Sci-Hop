@@ -1,3 +1,81 @@
-body{
-    width: 10rem;
+#sci-hop-popup-container{
+    position: absolute;
+    z-index: 9999;
+    width: 15rem;
+    padding: 0.5rem;
+    font-family: "Poppins", sans-serif;
+    font-style: normal;
+    background-color: #0d0d32;
+    margin: 0.75rem;
+    border-radius: 0.25rem;
+    background: linear-gradient(135deg, #0d0d32 0.000%, #1c1c5b 100.000%);
+    box-shadow: 0.5rem 0.5rem 0.5rem rgba(0, 0, 0, 0.33);
+}
+.sci-hop-top{
+    display: flex;
+    flex-direction: column;
+    gap: 0rem;
+    padding: 0.5rem;
+}
+.sci-hop-top h1{
+    color: white;
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+.sci-hop-top p{
+    margin: 0;
+    color: rgb(193, 193, 193);
+    font-style: italic;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 0.8rem;
+}
+.sci-hop-top button{
+    background-color: #fbb03b;
+    border: 0;
+    border-radius: 1rem;
+    height: 2rem;
+    width: fit-content;
+    margin-top: 0.5rem;
+    padding: 0rem 1rem;
+    align-self: flex-end;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.1s ease;
+}
+.sci-hop-top button:hover{
+    background-color: #fed28b;
+}
+.sci-hop-top button p{
+    color: black;
+    font-style: normal;
+    font-weight: 700;
+}
+.sci-hop-top button #sci-hop-copy-icon{
+    width: 1.5rem;
+    height: 1.5rem;
+}
+#sci-hop-icon{
+    position: absolute;
+    width: 2rem;
+    top: 0.5rem;
+    right: 0.5rem;
+}
+#sci-hop-close-icon{
+    position: absolute;
+    width: 1.5rem;
+    top: -0.5rem;
+    right: -0.5rem;
+    background-color: white;
+    border-radius: 1rem;
+    box-shadow: 0.5rem 0.5rem 0.5rem rgba(0, 0, 0, 0.33);
+    cursor: pointer;
+    transition: 0.1s ease;
+}
+#sci-hop-close-icon:hover{
+    width: 1.6rem;
 }
