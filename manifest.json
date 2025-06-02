@@ -1,30 +1,50 @@
 {
-	"manifest_version": 2,
+	"manifest_version": 3,
 
 	"name": "Sci-Hop-DEV",
 	"description": "Open quickly the current article on Sci-hub",
 	"version": "1.2",
-	"background": {
-		"scripts": ["background.js"]
-	},
 
-	"permissions": ["tabs", "commands", "contextMenus"],
-	"browser_action": {
+	"permissions": ["tabs", "contextMenus"],
+
+	"host_permissions": [
+    	"<all_urls>"
+  	],
+
+	"action": {
 		"default_icon": "sci_hop_icon.png",
 		"default_title": "SCI HOP!"
 	},
+
+	"background": {
+    	"service_worker": "background.js"
+  	},
+
     "commands": {
-        "_execute_browser_action": {
+        "sci_hop": {
             "suggested_key": {
-                "windows": "Ctrl+Shift+S",
-                "mac": "Command+Shift+S"
-            }
+                "windows": "Ctrl+Shift+U",
+                "mac": "Command+Shift+U"
+            },
+			"description": "Sci-hop current URL"
         }
     },
+
 	"content_scripts": [{
 	  "matches": ["<all_urls>"],
 	  "js": ["content.js"]
 	}],
+
+	"web_accessible_resources": [
+	{
+		"resources": [
+			"popups/popup.html",
+			"popups/style.css"
+		],
+		"matches": ["<all_urls>"]
+	}
+  	],
+
 	"icons": {
 		"16": "sci_hop_icon_small.png"
 	}
