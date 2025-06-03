@@ -11,8 +11,8 @@ chrome.commands.onCommand.addListener((command) => {
 // Get current URL and search it on sci-hub
 function sciHopCurrentURL(){
 	chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      const currentUrl = tabs[0].url;
-      searchDOI(currentUrl);
+		const currentUrl = tabs[0].url;
+		searchDOI(currentUrl);
     });
 }
 // Open given DOI on sci-hub
@@ -22,74 +22,34 @@ function searchDOI(DOI){
 		"url": targetURL
 	});
 }
-
-
+// Open popup window on sci-hub
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (tab.url && tab.url.includes("sci-hub")) {
-	chrome.tabs.query({
-        currentWindow: true,
-        active: true
-    }, function(tab){
-        chrome.tabs.sendMessage(
-            tab[0].id, {action: "show_on_sci_hub_popup"}
-        );
-    });
+	sendActionMessage("show_on_sci_hub_popup");
   }
 });
-/*
 // Right click selected and open article on sci-hub
-chrome.contextMenus.create({
-	title: 'Sci-Hop this → %s',
-	contexts: ['selection'],
-	onclick: searchSelectedDOI
+chrome.runtime.onInstalled.addListener(() => {
+	chrome.contextMenus.create({
+		id: "sciHopSelection",
+		title: "Sci-Hop this → %s",
+		contexts: ["selection"]
+	});
 });
-
-// Right click and copy citation
-chrome.contextMenus.create({
-	title: 'Copy Scitation',
-	contexts: ['all'],
-	onclick: copyCitation
-});
-
-// Listen to found citation message
-/*chrome.runtime.onMessage.addListener(
-	function (request, sender) {
-		if (request.citationText) {
-			console.log("citation text is: " + request.citationText);
-		}
+// Send message when context menu clicked
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+	if(info.menuItemId == "sciHopSelection"){
+		searchDOI(info.selectionText);
 	}
-);*/
-/*
-chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-  if (tab.url && tab.url.includes("sci-hub")) {
-    //chrome.action.setPopup({ tabId: tabId, popup: "popups/on_sci_hub_popup.html" });
+});
+// Send messages
+function sendActionMessage(message, data = ""){
 	chrome.tabs.query({
         currentWindow: true,
         active: true
     }, function(tab){
         chrome.tabs.sendMessage(
-            tab[0].id, {action: "show_on_sci_hub_popup"}
+            tab[0].id, {action: message, cargo: data}
         );
     });
-  } else {
-    //chrome.action.setPopup({ tabId: tabId, popup: "" });
-  }
-});
-
-// FUNCTIONS
-function searchSelectedDOI(info){
-	searchDOI(info.selectionText);
-}*/
-
-/*
-function copyCitation(ocClickData, tab){
-    chrome.tabs.query({
-        currentWindow: true,
-        active: true
-    }, function(tab){
-        chrome.tabs.sendMessage(
-            tab[0].id, {action: "get_citation"}
-        );
-    });  
-}*/
-
+}

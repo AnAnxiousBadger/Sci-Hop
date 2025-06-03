@@ -3,9 +3,9 @@
 
 	"name": "Sci-Hop-DEV",
 	"description": "Open quickly the current article on Sci-hub",
-	"version": "1.2",
+	"version": "2.0",
 
-	"permissions": ["tabs", "contextMenus"],
+	"permissions": ["tabs", "contextMenus", "scripting"],
 
 	"host_permissions": [
     	"<all_urls>"

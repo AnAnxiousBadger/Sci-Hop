@@ -1,37 +1,12 @@
 // Liten to background actions
 chrome.runtime.onMessage.addListener(
 	function (request, sender){
-		if (request.action == "get_citation"){
-            parseCleanDOI();
-		}
-        else if(request.action == "show_on_sci_hub_popup"){
+        if(request.action == "show_on_sci_hub_popup"){
             injectOnSciHubPopupHTML();
         }
 	}
 );
-
-/*function parseAndCopyCitation(citationText) {
-
-    const yearMatch = citationText.match(/\((\d{4})\)/);
-    const year = yearMatch ? yearMatch[1] : '';
-
-    const titleMatch = citationText.match(/\)\. (.*?)\. /);
-    const title = titleMatch ? titleMatch[1] : '';
-
-    const authorMatch = citationText.match(/^(.*?),/);
-    const lastName = authorMatch ? authorMatch[1].split(' ')[0] : '';
-
-    const formattedText = `${year}\t${title}\t${lastName}`;
-
-    navigator.clipboard.writeText(formattedText).then(() => {
-        console.log("Citation: [" + formattedText + "] copied to clipboard!");
-    }).catch(err => {
-        console.error('Failed to copy text: ', err);
-    });
-}*/
-
-
-
+// Inject popup window on sci-hub
 async function injectOnSciHubPopupHTML() {
     const url = chrome.runtime.getURL("popups/on_sci_hub_popup.html");
     const response = await fetch(url);

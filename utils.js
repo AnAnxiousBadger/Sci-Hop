@@ -1,9 +1,10 @@
+// Get clean DOI from sci-hub page
 function parseCleanDOI(){
 	const doiDiv = document.getElementById("doi");
     const DOIString = doiDiv.innerText;
     return DOIString;
 }
-
+// Get metadata of article
 async function fetchDOIMetaData(DOI){
     const apiURL = `https://api.crossref.org/works/${DOI}`;
     const response = await fetch(apiURL);
@@ -18,7 +19,7 @@ async function fetchDOIMetaData(DOI){
         };
         return metadata;
 }
-
+// Copy the metadata to clipboard
 function copyDataToClipboard(metadata){
     const clipboardText = `${metadata.year}\t${metadata.title}\t${metadata.author}\t${metadata.journal}`;
     navigator.clipboard.writeText(clipboardText);
