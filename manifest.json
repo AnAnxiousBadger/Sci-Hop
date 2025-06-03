@@ -1,7 +1,7 @@
 {
 	"manifest_version": 3,
 
-	"name": "Sci-Hop-DEV",
+	"name": "Sci-Hop",
 	"description": "Open quickly the current article on Sci-hub",
 	"version": "2.0",
 
