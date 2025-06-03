@@ -1,4 +1,4 @@
-# Sci-Hub Shortcut Extension
+# Sci-Hop Shortcut Extension
 
 A simple Chromium browser extension for quickly opening scholarly articles on [Sci-Hub](https://sci-hub.se) and copying their citation in Excel-friendly format.
 
