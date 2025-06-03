@@ -82,6 +82,7 @@ function injectOnSciHubPopupElements(){
 
     document.getElementById("sci-hop-button-text").innerText = "copy Scitation";
 }
+// Inject publisher specific popup elements
 function injectOnPublisherPopupElements(){
     const copyIcon = document.getElementById("sci-hop-button-icon");
     copyIcon.src = chrome.runtime.getURL("icons/new_tab_icon.svg");

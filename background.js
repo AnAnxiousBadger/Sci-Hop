@@ -33,20 +33,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 		}
 	}
 });
-
-// Open popup window on sci-hub
-/*chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-  if (tab.url && tab.url.includes("sci-hub")) {
-	sendActionMessage("show_on_sci_hub_popup");
-  }
-});*/
-
-// Open popup window in publisher websites
-/*chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-	if(tab.url && isPusblisherURL(tab.url)){
-		sendActionMessage("show_on_publisher_popup");
-	}
-})*/
+// Check is page url is a publisher
 function isPusblisherURL(url){
 	if(url.includes("wiley") || url.includes("sciencedirect") || url.includes("mdpi") || url.includes("nature")|| url.includes("hindawi")|| url.includes("tandf")){
 		if(url.includes("sci-hub") || url.includes("google.")){
