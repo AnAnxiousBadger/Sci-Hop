@@ -39,10 +39,12 @@
 	{
 		"resources": [
 			"utils.js",
-			"popups/on_sci_hub_popup.html",
+			"popups/sci_hop_popup.html",
 			"popups/style.css",
 			"popups/on_sci_hub_popup.js",
+			"popups/on_publisher_popup.js",
 			"icons/copy_icon.svg",
+			"icons/new_tab_icon.svg",
 			"icons/close_icon.svg",
 			"sci_hop_icon.png"
 		],

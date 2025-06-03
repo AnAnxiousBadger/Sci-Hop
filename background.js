@@ -22,12 +22,40 @@ function searchDOI(DOI){
 		"url": targetURL
 	});
 }
-// Open popup window on sci-hub
+// Determine page by url and show popup 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+	if(tab.url && changeInfo.status == "complete"){
+		if(tab.url.includes("sci-hub")){
+			sendActionMessage("show_on_sci_hub_popup");
+		}
+		else if(isPusblisherURL(tab.url)){
+			sendActionMessage("show_on_publisher_popup");
+		}
+	}
+});
+
+// Open popup window on sci-hub
+/*chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (tab.url && tab.url.includes("sci-hub")) {
 	sendActionMessage("show_on_sci_hub_popup");
   }
-});
+});*/
+
+// Open popup window in publisher websites
+/*chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+	if(tab.url && isPusblisherURL(tab.url)){
+		sendActionMessage("show_on_publisher_popup");
+	}
+})*/
+function isPusblisherURL(url){
+	if(url.includes("wiley") || url.includes("elsevir") || url.includes("mdpi") || url.includes("nature")|| url.includes("hindawi")|| url.includes("tandf")){
+		if(url.includes("sci-hub")){
+			return false;
+		}
+		return true;
+	}
+	return false;
+}
 // Right click selected and open article on sci-hub
 chrome.runtime.onInstalled.addListener(() => {
 	chrome.contextMenus.create({
@@ -53,3 +81,9 @@ function sendActionMessage(message, data = ""){
         );
     });
 }
+// Listen to messages
+chrome.runtime.onMessage.addListener((request, sender) => {
+	if (request.action == "sci-hop-current-window") {
+		sciHopCurrentURL();
+	}
+});

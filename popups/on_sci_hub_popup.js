@@ -1,4 +1,4 @@
-const copyScitationButton = document.getElementById("sci-hop-copy-scitation-button");
+const copyScitationButton = document.getElementById("sci-hop-action-button");
 
 copyScitationButton.addEventListener("click", async function(){
     const DOI = parseCleanDOI();

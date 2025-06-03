@@ -24,3 +24,7 @@ function copyDataToClipboard(metadata){
     const clipboardText = `${metadata.year}\t${metadata.title}\t${metadata.author}\t${metadata.journal}`;
     navigator.clipboard.writeText(clipboardText);
 }
+// Send messages
+function sendMessage(data){
+    window.postMessage({ action: data}, "*");
+}
