@@ -48,8 +48,8 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 	}
 })*/
 function isPusblisherURL(url){
-	if(url.includes("wiley") || url.includes("elsevir") || url.includes("mdpi") || url.includes("nature")|| url.includes("hindawi")|| url.includes("tandf")){
-		if(url.includes("sci-hub")){
+	if(url.includes("wiley") || url.includes("sciencedirect") || url.includes("mdpi") || url.includes("nature")|| url.includes("hindawi")|| url.includes("tandf")){
+		if(url.includes("sci-hub") || url.includes("google.")){
 			return false;
 		}
 		return true;

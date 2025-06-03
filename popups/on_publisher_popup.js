@@ -6,5 +6,10 @@ copyScitationButton.addEventListener("click", async function(){
     } catch (error) {
         alert(error);
     }
-    
 ;})
+
+const closeOnSciHopPopupButton = document.getElementById("sci-hop-close-icon");
+
+closeOnSciHopPopupButton.addEventListener("click", function(){
+    document.getElementById("sci-hop-popup-container").style.display = "none";
+})
