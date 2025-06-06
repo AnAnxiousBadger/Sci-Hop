@@ -26,9 +26,9 @@ A simple Chromium browser extension for quickly opening scholarly articles on [S
 4. Click **Load unpacked** and select the downloaded folder.
 5. Pin the extension icon for easier access (optional).
 
-### Method 2: Pack Extension (.crx file)
+### Method 2: Pack Extension (.crx file; only works on opera because chrome does not trust extension not downloaded from store)
 
-1. Go to `chrome://extensions/` or `opera://extensions/` and enable **Developer mode**.
+1. Go to  `opera://extensions/` and enable **Developer mode**.
 2. Click **Pack extension**.
    - For *Extension root directory*, select the downloaded folder.
    - (Optional) Leave the *Private key file* blank if generating for the first time.
